@@ -2,7 +2,7 @@
  * Service worker de Neto — solo se encarga de las notificaciones push.
  *
  * Este archivo TIENE que estar suelto en el repositorio, junto al index.html (es decir, en
- * reynaga013.github.io/mis-cuentas/firebase-messaging-sw.js). No puede ir dentro del HTML de la
+ * netoapp.app/firebase-messaging-sw.js). No puede ir dentro del HTML de la
  * app: los navegadores exigen que un service worker sea un archivo propio servido desde el mismo
  * sitio, porque se ejecuta en segundo plano incluso con la app cerrada — que es justo lo que hace
  * posible recibir avisos sin tener Neto abierto.
@@ -45,7 +45,7 @@ self.addEventListener("notificationclick", (event) => {
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
       for (const client of windowClients) {
-        if (client.url.includes("/mis-cuentas") && "focus" in client) return client.focus();
+        if (client.url.startsWith(self.location.origin) && "focus" in client) return client.focus();
       }
       if (clients.openWindow) return clients.openWindow("./");
     })
